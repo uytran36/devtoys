@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <meta name="description" content="Bộ công cụ nhỏ gọn cho lập trình viên. Format, so sánh và chuyển đổi văn bản ngay trong trình duyệt.">
+    <title>DevToys — JSON Formatter</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="utils.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18"/></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/></symbol>
+      <symbol id="i-compare" viewBox="0 0 24 24"><path d="M9 3v18m6-18v18M3 7l3-3-3-3m18 22-3-3 3-3M2 4h4m12 16h4"/></symbol>
+      <symbol id="i-type" viewBox="0 0 24 24"><path d="M3 19 9 5l6 14M5 15h8m3-4h6m-3 0v8m-2 0h4"/></symbol>
+      <symbol id="i-escape" viewBox="0 0 24 24"><path d="m7 5-5 7 5 7m10-14 5 7-5 7M10 4l4 16"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z"/><path d="m8 12 3 3 5-6"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H5v20h14V7l-5-5Zm0 0v6h5M8 12h8m-8 4h6"/></symbol>
+    </svg>
+
+    <aside class="sidebar">
+      <a class="brand" href="#json" aria-label="DevToys, trang JSON Formatter">
+        <span class="brand-mark"><svg><use href="#i-code"/></svg></span>
+        <span>dev<span class="brand-light">toys</span><span class="brand-dot">.</span></span>
+      </a>
+      <div class="workspace-label"><span class="status-dot"></span> YOUR EVERYDAY TOOLKIT</div>
+      <div class="nav-label">WORKSPACE <span>05</span></div>
+      <nav aria-label="Công cụ">
+        <a href="#json" class="nav-item active" data-tool="json" aria-current="page"><svg><use href="#i-code"/></svg><span>JSON Formatter</span><span class="nav-indicator"></span></a>
+        <a href="#sql" class="nav-item" data-tool="sql"><svg><use href="#i-database"/></svg><span>SQL Formatter</span><span class="mini-tag">PG</span></a>
+        <a href="#compare" class="nav-item" data-tool="compare"><svg><use href="#i-compare"/></svg><span>Text Comparer</span></a>
+        <a href="#convert" class="nav-item" data-tool="convert"><svg><use href="#i-type"/></svg><span>Convert Text</span></a>
+        <a href="#escape" class="nav-item" data-tool="escape"><svg><use href="#i-escape"/></svg><span>Escape / Unescape</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="privacy-card"><svg><use href="#i-shield"/></svg><strong>Dữ liệu ở lại với bạn.</strong><p>Mọi thao tác được xử lý ngay trên trình duyệt. Không tải lên máy chủ.</p><span><span class="status-dot"></span> 100% client-side</span></div>
+        <a class="docs-link" href="README.md" target="_blank" rel="noopener"><svg><use href="#i-file"/></svg>Tài liệu hướng dẫn <span>↗</span></a>
+        <div class="sidebar-version"><span>MADE FOR DEVELOPERS</span><span>v1.0</span></div>
+      </div>
+    </aside>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="breadcrumb"><svg><use href="#i-grid"/></svg><span>Workspace</span><span class="breadcrumb-slash">/</span><span id="breadcrumb-current">JSON Formatter</span></div>
+        <div class="topbar-actions"><span class="local-badge"><span class="status-dot"></span> Local & private</span><button class="icon-button theme-button" id="theme-toggle" type="button" aria-label="Chuyển sang giao diện sáng" title="Đổi giao diện"><svg><use href="#i-sun"/></svg></button></div>
+      </header>
+
+      <main id="main">
+        <section class="page-heading">
+          <div class="eyebrow"><span></span> LESS BUSYWORK. MORE BUILDING.</div>
+          <div class="title-row"><h1 id="page-title">JSON Formatter</h1><span class="page-badge" id="page-badge">FORMATTER</span></div>
+          <p id="page-description">Biến JSON khó đọc thành cấu trúc rõ ràng. Gọn gàng, chính xác, trong tích tắc.</p>
+        </section>
+
+        <section class="tool-panel" id="panel-json" aria-label="JSON Formatter">
+          <div class="toolbar">
+            <div class="toolbar-group"><span class="setting-label">Thụt lề</span><select id="json-indent" aria-label="Thụt lề JSON"><option value="2">2 spaces</option><option value="4">4 spaces</option><option value="tab">Tab</option></select><span class="toolbar-divider"></span><span class="subtle-label">JSON chuẩn RFC 8259</span></div>
+            <button class="text-button" data-sample="json"><svg><use href="#i-file"/></svg>Dùng ví dụ</button>
+          </div>
+          <div class="editor-grid">
+            <div class="editor-card">
+              <div class="editor-header"><label for="json-input"><span class="editor-dot"></span> Đầu vào <span class="code-label">JSON</span></label><button class="icon-button" data-clear="json" aria-label="Xóa JSON" title="Xóa"><svg><use href="#i-trash"/></svg></button></div>
+              <textarea id="json-input" class="code-editor" spellcheck="false" placeholder='Dán JSON của bạn vào đây…&#10;&#10;{&quot;hello&quot;:&quot;world&quot;}'></textarea>
+              <div class="editor-footer"><span data-stats="json-input">0 ký tự · 0 dòng</span><span>UTF-8</span></div>
+            </div>
+            <div class="editor-card output-card">
+              <div class="editor-header"><label for="json-output"><span class="editor-dot accent"></span> Kết quả <span class="code-label">JSON</span></label><button class="text-button small" data-copy="json-output"><svg><use href="#i-copy"/></svg>Sao chép</button></div>
+              <textarea id="json-output" class="code-editor" spellcheck="false" readonly placeholder="JSON đã định dạng sẽ xuất hiện ở đây…"></textarea>
+              <div class="editor-footer"><span data-stats="json-output">0 ký tự · 0 dòng</span><span class="output-state" id="json-state">Chờ đầu vào</span></div>
+            </div>
+          </div>
+          <div class="action-bar"><div class="action-buttons"><button class="button primary" id="json-format"><svg><use href="#i-spark"/></svg>Format JSON <svg><use href="#i-arrow"/></svg></button><button class="button secondary" id="json-minify">Minify</button></div><span class="keyboard-hint"><kbd id="shortcut-key">Ctrl</kbd><kbd>↵</kbd> để định dạng</span></div>
+          <div class="feedback" id="json-feedback" role="status" aria-live="polite"></div>
+          <div class="tip"><svg><use href="#i-spark"/></svg><p><strong>Một chút gọn gàng, nhiều sự rõ ràng.</strong> Kiểm tra cú pháp, định dạng hoặc rút gọn JSON chỉ với một thao tác.</p></div>
+        </section>
+
+        <section class="tool-panel" id="panel-sql" aria-label="SQL Formatter" hidden>
+          <div class="toolbar">
+            <div class="toolbar-group"><span class="dialect-badge"><svg><use href="#i-database"/></svg>PostgreSQL</span><span class="toolbar-divider"></span><label class="setting-label" for="sql-indent">Thụt lề</label><select id="sql-indent"><option value="2">2 spaces</option><option value="4">4 spaces</option><option value="tab">Tab</option></select><label class="checkbox-label"><input id="sql-uppercase" type="checkbox" checked> IN HOA từ khóa</label></div>
+            <button class="text-button" data-sample="sql"><svg><use href="#i-file"/></svg>Dùng ví dụ</button>
+          </div>
+          <div class="editor-grid">
+            <div class="editor-card"><div class="editor-header"><label for="sql-input"><span class="editor-dot"></span> Đầu vào <span class="code-label">SQL</span></label><button class="icon-button" data-clear="sql" aria-label="Xóa SQL"><svg><use href="#i-trash"/></svg></button></div><textarea id="sql-input" class="code-editor" spellcheck="false" placeholder="select id, name from users where active = true;"></textarea><div class="editor-footer"><span data-stats="sql-input">0 ký tự · 0 dòng</span><span>PostgreSQL</span></div></div>
+            <div class="editor-card output-card"><div class="editor-header"><label for="sql-output"><span class="editor-dot accent"></span> Kết quả <span class="code-label">SQL</span></label><button class="text-button small" data-copy="sql-output"><svg><use href="#i-copy"/></svg>Sao chép</button></div><textarea id="sql-output" class="code-editor" spellcheck="false" readonly placeholder="SQL đã định dạng sẽ xuất hiện ở đây…"></textarea><div class="editor-footer"><span data-stats="sql-output">0 ký tự · 0 dòng</span><span>Không thực thi truy vấn</span></div></div>
+          </div>
+          <div class="action-bar"><button class="button primary" id="sql-format"><svg><use href="#i-spark"/></svg>Format SQL<svg><use href="#i-arrow"/></svg></button><span class="subtle-label">Hỗ trợ CTE, JOIN, chuỗi dollar-quoted và toán tử PostgreSQL</span></div>
+          <div class="feedback" id="sql-feedback" role="status" aria-live="polite"></div>
+          <div class="tip"><svg><use href="#i-shield"/></svg><p>Định dạng theo token, không phải trình kiểm tra cú pháp SQL. Nội dung chuỗi, tên được trích dẫn và comment được giữ nguyên.</p></div>
+        </section>
+
+        <section class="tool-panel" id="panel-compare" aria-label="Text Comparer" hidden>
+          <div class="toolbar"><div class="toolbar-group"><span class="setting-label">So sánh theo dòng</span><span class="toolbar-divider"></span><label class="checkbox-label"><input id="compare-whitespace" type="checkbox"> Bỏ qua khoảng trắng đầu/cuối</label></div><button class="text-button" data-sample="compare"><svg><use href="#i-file"/></svg>Dùng ví dụ</button></div>
+          <div class="editor-grid">
+            <div class="editor-card"><div class="editor-header"><label for="compare-before"><span class="editor-dot"></span> Văn bản gốc <span class="code-label">ORIGINAL</span></label></div><textarea id="compare-before" class="code-editor compact" spellcheck="false" placeholder="Nhập văn bản gốc…"></textarea><div class="editor-footer"><span data-stats="compare-before">0 ký tự · 0 dòng</span><span>Trước</span></div></div>
+            <div class="editor-card"><div class="editor-header"><label for="compare-after"><span class="editor-dot accent"></span> Văn bản mới <span class="code-label">MODIFIED</span></label></div><textarea id="compare-after" class="code-editor compact" spellcheck="false" placeholder="Nhập văn bản cần so sánh…"></textarea><div class="editor-footer"><span data-stats="compare-after">0 ký tự · 0 dòng</span><span>Sau</span></div></div>
+          </div>
+          <div class="action-bar"><div class="action-buttons"><button class="button primary" id="compare-run"><svg><use href="#i-compare"/></svg>So sánh văn bản</button><button class="button secondary" data-clear="compare">Xóa tất cả</button></div><span class="subtle-label">Phát hiện dòng thêm, xóa và giữ nguyên</span></div>
+          <div class="feedback" id="compare-feedback" role="status" aria-live="polite"></div>
+          <div class="diff-card" id="diff-card" hidden><div class="editor-header"><strong>Kết quả so sánh</strong><div class="diff-summary" id="diff-summary"></div></div><div class="diff-scroll" tabindex="0" aria-label="Các dòng khác biệt"><table class="diff-table"><thead><tr><th scope="col">Cũ</th><th scope="col">Mới</th><th scope="col"><span class="sr-only">Thay đổi</span></th><th scope="col">Nội dung</th></tr></thead><tbody id="diff-body"></tbody></table></div></div>
+        </section>
+
+        <section class="tool-panel" id="panel-convert" aria-label="Convert Text" hidden>
+          <div class="toolbar"><div class="toolbar-group"><span class="setting-label">Một văn bản. Nhiều cách viết.</span></div><button class="text-button" data-sample="convert"><svg><use href="#i-file"/></svg>Dùng ví dụ</button></div>
+          <div class="editor-card"><div class="editor-header"><label for="convert-input"><span class="editor-dot accent"></span> Văn bản của bạn <span class="code-label">TEXT</span></label><div class="editor-actions"><button class="text-button small" data-copy="convert-input"><svg><use href="#i-copy"/></svg>Sao chép</button><button class="icon-button" data-clear="convert" aria-label="Xóa văn bản"><svg><use href="#i-trash"/></svg></button></div></div><textarea id="convert-input" class="code-editor convert-editor" spellcheck="false" placeholder="Nhập văn bản, ví dụ: hello wonderful world"></textarea><div class="editor-footer"><span data-stats="convert-input">0 ký tự · 0 dòng</span><span>Chuyển đổi trực tiếp trong ô nhập</span></div></div>
+          <div class="convert-options">
+            <button class="convert-button" data-case="snake"><span class="convert-icon">sn</span><strong>snake_case</strong><span>hello_wonderful_world</span><svg><use href="#i-arrow"/></svg></button>
+            <button class="convert-button" data-case="camel"><span class="convert-icon">ca</span><strong>camelCase</strong><span>helloWonderfulWorld</span><svg><use href="#i-arrow"/></svg></button>
+            <button class="convert-button" data-case="pascal"><span class="convert-icon">Pa</span><strong>PascalCase</strong><span>HelloWonderfulWorld</span><svg><use href="#i-arrow"/></svg></button>
+          </div>
+          <div class="action-bar"><span class="subtle-label">Nhận diện dấu cách, dấu phân cách và các từ đã viết camelCase.</span><button class="button secondary" id="convert-undo" disabled>Hoàn tác</button></div>
+          <div class="feedback" id="convert-feedback" role="status" aria-live="polite"></div>
+          <div class="tip"><svg><use href="#i-type"/></svg><p>Nhấn một kiểu viết để thay thế ngay nội dung ô nhập. Hỗ trợ chữ có dấu; mỗi dòng được chuyển đổi riêng.</p></div>
+        </section>
+
+        <section class="tool-panel" id="panel-escape" aria-label="Text Escape và Unescape" hidden>
+          <div class="toolbar"><div class="toolbar-group"><label class="setting-label" for="escape-mode">Kiểu chuyển đổi</label><select id="escape-mode"><option value="json">JSON string</option><option value="html">HTML entities</option><option value="url">URL component</option></select></div><button class="text-button" data-sample="escape"><svg><use href="#i-file"/></svg>Dùng ví dụ</button></div>
+          <div class="editor-grid">
+            <div class="editor-card"><div class="editor-header"><label for="escape-input"><span class="editor-dot"></span> Đầu vào <span class="code-label">TEXT</span></label><button class="icon-button" data-clear="escape" aria-label="Xóa văn bản escape"><svg><use href="#i-trash"/></svg></button></div><textarea id="escape-input" class="code-editor" spellcheck="false" placeholder='Nhập văn bản có "dấu ngoặc kép", xuống dòng hoặc ký tự đặc biệt…'></textarea><div class="editor-footer"><span data-stats="escape-input">0 ký tự · 0 dòng</span><span>Plain text</span></div></div>
+            <div class="editor-card output-card"><div class="editor-header"><label for="escape-output"><span class="editor-dot accent"></span> Kết quả <span class="code-label">TEXT</span></label><button class="text-button small" data-copy="escape-output"><svg><use href="#i-copy"/></svg>Sao chép</button></div><textarea id="escape-output" class="code-editor" spellcheck="false" readonly placeholder="Văn bản đã chuyển đổi sẽ xuất hiện ở đây…"></textarea><div class="editor-footer"><span data-stats="escape-output">0 ký tự · 0 dòng</span><span id="escape-output-label">JSON string</span></div></div>
+          </div>
+          <div class="action-bar"><div class="action-buttons"><button class="button primary" id="escape-run"><svg><use href="#i-escape"/></svg>Escape</button><button class="button secondary" id="unescape-run">Unescape</button><button class="text-button" id="escape-use-output">Dùng kết quả làm đầu vào <svg><use href="#i-arrow"/></svg></button></div></div>
+          <div class="feedback" id="escape-feedback" role="status" aria-live="polite"></div>
+          <div class="tip"><svg><use href="#i-code"/></svg><p id="escape-help">JSON string: escape nội dung chuỗi, không thêm cặp dấu ngoặc kép bên ngoài. Unescape nhận nội dung theo cùng quy ước.</p></div>
+        </section>
+
+        <footer class="page-footer"><span><svg><use href="#i-shield"/></svg>Không tài khoản. Không tracking. Chỉ có công cụ bạn cần.</span><span>Build something great<span class="brand-dot">.</span></span></footer>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>
